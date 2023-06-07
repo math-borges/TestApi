@@ -1,6 +1,23 @@
-<p>{{jesaispas}}</p>
-<button (click)="sayHello()">Click</button>
+<h2>Customers</h2>
 
 <div>
-  <p>{{data.firstname}}</p>
+  <div *ngFor="let customer of customers">
+
+    <h2>{{customer.firstname}} {{customer.lastname}}</h2>
+    <a href="#" (click)="deleteCustomer(customer)">delete</a>
+    <!-- <a href="#" (click)="editCustomer(customer)">edit</a> -->
+    <a [routerLink]="['/customer', customer.id]">view</a>
+    <a [routerLink]="['/customer/edit', customer.id]">Edit</a>
+  </div>
 </div>
+<form (ngSubmit)="createCustomer()" #customerForm="ngForm">
+  <label for="firstname">First Name:</label>
+  <input type="text" id="firstname" name="firstname" [(ngModel)]="customer.firstname" required>
+
+  <label for="lastname">Last Name:</label>
+  <input type="text" id="lastname" name="lastname" [(ngModel)]="customer.lastname" required>
+
+  <button type="submit">Add Customer</button>
+</form>
+
+<button (click)="sayHello()">Click</button>

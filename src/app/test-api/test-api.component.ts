@@ -10,14 +10,15 @@ import { Customer } from '../Entities/Customer';
 })
 export class TestApiComponent {
   jesaispas: string = 'je sais pas trop';
-  data!: Customer;
+  customers!: Customer[];
+  customer: Customer = new Customer();
 
   constructor(private testApiService: TestApiService) {}
 
   ngOnInit(): void {
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
     //Add 'implements OnInit' to the class.
-    this.getCustomer(1);
+    this.getCustomers();
     console.log();
   }
 
@@ -25,9 +26,35 @@ export class TestApiComponent {
     alert('hello');
   }
 
-  getCustomer(id: number): any {
-    this.testApiService.getCustomer(id).subscribe((data) => {
-      this.data = data;
+  // getCustomer(id: number): any {
+  //   this.testApiService.getCustomer(id).subscribe((data) => {
+  //     this.customers = data;
+  //   });
+  // }
+
+  getCustomers(): any {
+    this.testApiService.getCustomers().subscribe((data) => {
+      this.customers = data;
+    });
+  }
+
+  deleteCustomer(customer: Customer): any {
+    this.testApiService.deleteCustomer(customer.id!).subscribe((data) => {
+      this.getCustomers();
+    });
+  }
+
+  editCustomer(id: number, updatedCustomer: Customer): any {
+    this.testApiService.editCustomer(id, updatedCustomer).subscribe((data) => {
+      this.getCustomers();
+    });
+  }
+
+  createCustomer() {
+    this.testApiService.createCustomer(this.customer).subscribe((response) => {
+      console.log(response); // Traitez la réponse du service si nécessaire
+      this.customers.push(this.customer);
+      this.customer = new Customer(); // Réinitialisez le formulaire après l'ajout
     });
   }
 }

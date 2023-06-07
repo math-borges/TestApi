@@ -8,13 +8,32 @@ import { Customer } from '../Entities/Customer';
   providedIn: 'root',
 })
 export class TestApiService {
-  private url = '/customer';
+  private url = '/customers';
   private baseUrl = environment.apiUrl;
   private apiUrl = this.baseUrl + this.url;
 
   constructor(private http: HttpClient) {}
 
+  getCustomers(): Observable<Customer[]> {
+    return this.http.get<Customer[]>(this.apiUrl);
+  }
+
   getCustomer(id: number): Observable<Customer> {
-    return this.http.get<Customer>(this.apiUrl + '/' + id);
+    return this.http.get<Customer>(this.apiUrl + '/customer/' + id);
+  }
+
+  createCustomer(customer: Customer): Observable<Customer> {
+    return this.http.post<Customer>(this.apiUrl + '/customer/add', customer);
+  }
+
+  deleteCustomer(id: number): Observable<Customer> {
+    return this.http.delete<Customer>(this.apiUrl + '/customer/delete/' + id);
+  }
+
+  editCustomer(id: number, updatedCustomer: Customer): Observable<Customer> {
+    return this.http.put<Customer>(
+      this.apiUrl + '/customer/edit/' + id,
+      updatedCustomer
+    );
   }
 }

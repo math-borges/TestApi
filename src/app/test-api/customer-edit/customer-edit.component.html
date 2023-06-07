@@ -1,0 +1,12 @@
+<h2>Edit Customer</h2>
+
+
+<form (ngSubmit)="editCustomer(customer.id!, customer)">
+  <label for="firstname">First Name:</label>
+  <input type="text" id="firstname" name="firstname" [(ngModel)]="customer.firstname" required>
+
+  <label for="lastname">Last Name:</label>
+  <input type="text" id="lastname" name="lastname" [(ngModel)]="customer.lastname" required>
+
+  <button type="submit">Save Changes</button>
+</form>
